@@ -23,16 +23,21 @@ BEGIN {
 # stuff in weird ways.
 # - Sl
 
-sub setup_keyword_handler {
+sub install {
     my ($pkg, $method, $handler) = @_;
     my $cv = eval 'sub { 1 }'; # need to force a new CV each time here
     {
         no strict 'refs';
         *{"${pkg}::${method}"} = $cv;
     }
-    BEGIN::Lift::install_keyword_handler(
+    BEGIN::Lift::Util::install_keyword_handler(
         $cv, sub {
-            my $stmt = BEGIN::Lift::parse_full_statement;
+            # read till the end of the statement ...
+            my $stmt = BEGIN::Lift::Util::parse_full_statement;
+            # then execute that callback and pass the
+            # result to the handler, this basically
+            # evaluates all the arguments, so make
+            # sure they are BEGIN time clean
             my $resp = $handler->( $stmt->() );
             $resp = sub {()} unless $resp && ref $resp eq 'CODE';
             return ($resp, 1);
@@ -40,12 +45,41 @@ sub setup_keyword_handler {
     );
 }
 
-sub teardown_keyword_handler {
-    my ($pkg, $method) = @_;
-    no strict 'refs';
-    delete ${"${pkg}::"}{ $method };
-}
-
 1;
 
 __END__
+
+=pod
+
+=head1 NAME
+
+BEGIN::Lift - Lift subroutine calls into the BEGIN phase
+
+=head1 SYNOPSIS
+
+    package My::OO::Module;
+    use strict;
+    use warnings;
+
+    use BEGIN::Lift;
+
+    sub import {
+        my ($class, @args) = @_;
+
+        my $caller = caller;
+
+        BEGIN::Lift::install(
+            ($caller, 'extends') => sub {
+                my @isa = @_;
+                no strict 'refs';
+                @{$caller . '::ISA'} = @isa;
+                return;
+            }
+        );
+    }
+
+=head1 DESCRIPTION
+
+=cut
+
+

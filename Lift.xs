@@ -85,7 +85,7 @@ static OP *parser_callback(pTHX_ GV *namegv, SV *psobj, U32 *flagsp) {
 // END: Shameless Steal from Parse::Keyword
 /* ======================================================= */
 
-MODULE = BEGIN::Lift  PACKAGE = BEGIN::Lift
+MODULE = BEGIN::Lift  PACKAGE = BEGIN::Lift::Util
 
 # NOTE:
 # Everything in this package has been stolen from
