@@ -14,22 +14,26 @@ BEGIN {
     XSLoader::load( __PACKAGE__, $VERSION );
 }
 
-# NOTE:
-# we should likely enforce that the keyword
-# has an empty typeglob so that when we delete
-# it in the teardown we are not removing
-# anything. I did try to just delete the CODE
-# slot in the keyword typeglob and it broke
-# stuff in weird ways.
-# - Sl
-
 sub install {
     my ($pkg, $method, $handler) = @_;
-    my $cv = eval 'sub { 1 }'; # need to force a new CV each time here
+
+    # need to force a new CV each time here
+    my $cv = eval 'sub {}';
+
+    # NOTE:
+    # if we want to be able to easily delete
+    # an installed method in a teardown scenario
+    # then we will likely need to enforce that
+    # the keyword has an empty typeglob. When
+    # I did try to just delete the CODE slot in
+    # the keyword typeglob, stuff broke in
+    # weird ways.
+    # - Sl
     {
         no strict 'refs';
         *{"${pkg}::${method}"} = $cv;
     }
+
     BEGIN::Lift::Util::install_keyword_handler(
         $cv, sub {
             # read till the end of the statement ...
@@ -77,6 +81,14 @@ BEGIN::Lift - Lift subroutine calls into the BEGIN phase
             }
         );
     }
+
+    package Foo;
+    use My::OO::Module;
+
+    extends 'Bar';
+
+    # functionally equivalent to ...
+    # BEGIN { @ISA = ('Bar') }
 
 =head1 DESCRIPTION
 
