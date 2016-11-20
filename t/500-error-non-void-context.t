@@ -6,9 +6,9 @@ use warnings;
 use Test::More;
 
 BEGIN {
-    use_ok('BEGIN::Lift');
+    use_ok('BEGIN::KeywordLift');
 
-    BEGIN::Lift::install(
+    BEGIN::KeywordLift::install(
         ('main', 'double') => sub { $_[0] * 2 }
     );
 }

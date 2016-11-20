@@ -1,4 +1,4 @@
-package BEGIN::Lift;
+package BEGIN::KeywordLift;
 
 use strict;
 use warnings;
@@ -34,10 +34,10 @@ sub install {
         *{"${pkg}::${method}"} = $cv;
     }
 
-    BEGIN::Lift::Util::install_keyword_handler(
+    BEGIN::KeywordLift::Util::install_keyword_handler(
         $cv, sub {
             # read till the end of the statement ...
-            my $stmt = BEGIN::Lift::Util::parse_full_statement;
+            my $stmt = BEGIN::KeywordLift::Util::parse_full_statement;
             # then execute that callback and pass the
             # result to the handler, this basically
             # evaluates all the arguments, so make
@@ -57,7 +57,7 @@ __END__
 
 =head1 NAME
 
-BEGIN::Lift - Lift subroutine calls into the BEGIN phase
+BEGIN::KeywordLift - Lift subroutine calls into the BEGIN phase
 
 =head1 SYNOPSIS
 
@@ -65,14 +65,14 @@ BEGIN::Lift - Lift subroutine calls into the BEGIN phase
     use strict;
     use warnings;
 
-    use BEGIN::Lift;
+    use BEGIN::KeywordLift;
 
     sub import {
         my ($class, @args) = @_;
 
         my $caller = caller;
 
-        BEGIN::Lift::install(
+        BEGIN::KeywordLift::install(
             ($caller, 'extends') => sub {
                 my @isa = @_;
                 no strict 'refs';
