@@ -5,8 +5,8 @@ use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
     'NAME'               => 'BEGIN::KeywordLift',
     'VERSION'            => '0.01',
-    'DISTNAME'           => 'BEGIN-Lift',
-    'ABSTRACT'           => 'Lift subroutine calls into the BEGIN phase',
+    'DISTNAME'           => 'BEGIN-KeywordLift',
+    'ABSTRACT'           => 'Mimic keywords with callbacks executed during the BEGIN phase',
     'AUTHOR'             => 'Stevan Little',
     'BUILD_REQUIRES'     => {},
     'CONFIGURE_REQUIRES' => {
