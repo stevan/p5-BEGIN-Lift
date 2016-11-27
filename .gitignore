@@ -1,7 +1,7 @@
 Makefile.old
-Lift.bs
-Lift.c
-Lift.o
+KeywordLift.bs
+KeywordLift.c
+KeywordLift.o
 MYMETA.*
 Makefile
 blib/
