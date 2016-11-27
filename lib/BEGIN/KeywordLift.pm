@@ -17,6 +17,11 @@ BEGIN {
 sub install {
     my ($pkg, $method, $handler) = @_;
 
+    # TODO:
+    # check to make sure we are in BEGIN time
+    # otherwise we need to throw an exception
+    # - SL
+
     # need to force a new CV each time here
     my $cv = eval 'sub {}';
 
@@ -28,11 +33,18 @@ sub install {
     # I did try to just delete the CODE slot in
     # the keyword typeglob, stuff broke in
     # weird ways.
-    # - Sl
+    # - SL
     {
         no strict 'refs';
         *{"${pkg}::${method}"} = $cv;
     }
+
+    # XXX:
+    # should we do a Sub::Name thing here with $cv?
+    # It might not actually be needed, especially
+    # if we decide to automatically remove the
+    # keywords.
+    # - SL
 
     BEGIN::KeywordLift::Util::install_keyword_handler(
         $cv,
@@ -47,6 +59,12 @@ sub install {
             return (sub {}, 1);
         }
     );
+
+    # XXX:
+    # Perhaps install a UNITCHECK callback here that will remove
+    # the keyword glob from the package, this would serve to
+    # enforce the BEGIN time nature of things.
+    # - SL
 }
 
 1;
