@@ -61,29 +61,25 @@ BEGIN::KeywordLift - Lift subroutine calls into the BEGIN phase
 
 =head1 SYNOPSIS
 
-    package My::OO::Module;
+    package Cariboo;
     use strict;
     use warnings;
 
     use BEGIN::KeywordLift;
 
     sub import {
-        my ($class, @args) = @_;
-
         my $caller = caller;
 
         BEGIN::KeywordLift::install(
             ($caller, 'extends') => sub {
-                my @isa = @_;
                 no strict 'refs';
-                @{$caller . '::ISA'} = @isa;
-                return;
+                @{$caller . '::ISA'} = @_;
             }
         );
     }
 
     package Foo;
-    use My::OO::Module;
+    use Cariboo;
 
     extends 'Bar';
 
