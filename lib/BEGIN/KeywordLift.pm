@@ -35,16 +35,16 @@ sub install {
     }
 
     BEGIN::KeywordLift::Util::install_keyword_handler(
-        $cv, sub {
+        $cv,
+        sub {
             # read till the end of the statement ...
             my $stmt = BEGIN::KeywordLift::Util::parse_full_statement;
             # then execute that callback and pass the
             # result to the handler, this basically
             # evaluates all the arguments, so make
             # sure they are BEGIN time clean
-            my $resp = $handler->( $stmt->() );
-            $resp = sub {()} unless $resp && ref $resp eq 'CODE';
-            return ($resp, 1);
+            $handler->( $stmt->() );
+            return (sub {}, 1);
         }
     );
 }
