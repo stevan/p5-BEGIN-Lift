@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 
 BEGIN {
-    use_ok('BEGIN::KeywordLift');    
+    use_ok('Keyword::BeginLift');
 }
 
 sub foo;
@@ -14,7 +14,7 @@ sub foo;
 our $EXCEPTION;
 BEGIN {
     eval {
-        BEGIN::KeywordLift::install(
+        Keyword::BeginLift::install(
             ('main', 'foo') => sub { $_[0] * 2 }
         );
         1;

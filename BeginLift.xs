@@ -53,7 +53,7 @@ static OP *parser_callback(pTHX_ GV *namegv, SV *psobj, U32 *flagsp) {
 // END: Shameless Steal from Parse::Keyword
 /* ======================================================= */
 
-MODULE = BEGIN::KeywordLift  PACKAGE = BEGIN::KeywordLift::Util
+MODULE = Keyword::BeginLift  PACKAGE = Keyword::BeginLift::Util
 
 # NOTE:
 # Everything in this package has been stolen from
@@ -63,7 +63,7 @@ MODULE = BEGIN::KeywordLift  PACKAGE = BEGIN::KeywordLift::Util
 
 PROTOTYPES: DISABLE
 
-void 
+void
 install_keyword_cleanup_handler(handler)
         SV* handler
     CODE:
@@ -72,7 +72,7 @@ install_keyword_cleanup_handler(handler)
         }
         SvREFCNT_inc(handler);
         av_push(PL_unitcheckav, handler);
-        
+
 
 void
 install_keyword_handler(keyword, handler)
