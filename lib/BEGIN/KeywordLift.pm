@@ -6,7 +6,6 @@ use warnings;
 our $VERSION;
 our $AUTHORITY;
 
-use Devel::GlobalPhase;
 use Devel::CallParser;
 use XSLoader;
 BEGIN {
@@ -18,9 +17,8 @@ BEGIN {
 sub install {
     my ($pkg, $method, $handler) = @_;
 
-    my $global_phase = Devel::GlobalPhase::global_phase();
-    die "Lifted keywords must be created during BEGIN time, not ($global_phase)"
-        unless $global_phase eq 'START';
+    die 'Lifted keywords must be created during BEGIN time, not (' . ${^GLOBAL_PHASE}. ')'
+        unless ${^GLOBAL_PHASE} eq 'START';
 
     # need to force a new CV each time here
     my $cv = eval 'sub {}';
