@@ -11,7 +11,7 @@
 #define cv_clone(a) Perl_cv_clone(aTHX_ a)
 #endif
 
-static SV *parser_fn(OP *(fn)(pTHX_ U32), bool named) {
+static SV *parser_fn(OP *(fn)(pTHX_ U32)) {
     I32 floor;
     CV *code;
     U8 errors;
@@ -23,7 +23,7 @@ static SV *parser_fn(OP *(fn)(pTHX_ U32), bool named) {
     SAVEI8(PL_parser->error_count);
     PL_parser->error_count = 0;
 
-    floor = start_subparse(0, named ? 0 : CVf_ANON);
+    floor = start_subparse(0, CVf_ANON);
     code = newATTRSUB(floor, NULL, NULL, NULL, fn(aTHX_ 0));
 
     errors = PL_parser->error_count;
@@ -109,10 +109,37 @@ install_keyword_handler(keyword, handler)
         cv_set_call_parser( (CV*) SvRV( keyword ), parser_callback, handler );
 
 SV*
-parse_full_statement(named = FALSE)
-        bool named
+parse_full_statement()
     CODE:
-        RETVAL = parser_fn( Perl_parse_fullstmt, named );
+        I32 floor;
+        CV *code;
+        U8 errors;
+
+        ENTER;
+
+        PL_curcop = &PL_compiling;
+        SAVEVPTR(PL_op);
+        SAVEI8(PL_parser->error_count);
+        PL_parser->error_count = 0;
+
+        floor = start_subparse(0, CVf_ANON);
+        code = newATTRSUB(floor, NULL, NULL, NULL, Perl_parse_fullstmt(aTHX_ 0));
+
+        errors = PL_parser->error_count;
+
+        LEAVE;
+
+        if (errors) {
+            ++PL_parser->error_count;
+            RETVAL = newSV(0);
+        }
+        else {
+            if (CvCLONE(code)) {
+                code = cv_clone(code);
+            }
+
+            RETVAL = newRV_inc((SV*)code);
+        }
     OUTPUT:
         RETVAL
 
