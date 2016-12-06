@@ -52,6 +52,9 @@ is($TEST, 10, '... got the expected value (RUN) (before lifted sub is run)');
 # now we change the value in RUN time
 $TEST = 5;
 
+BEGIN { ok( exists $main::{'test'}, '... we have a typeglob in BEGIN' ) }
+ok( not(exists $main::{'test'}), '... we no longer have a typeglob in RUN' );
+
 # now we call our lifted sub call,
 # which time travels back into the
 # handler assigned above to set the

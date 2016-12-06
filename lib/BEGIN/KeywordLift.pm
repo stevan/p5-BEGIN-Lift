@@ -53,11 +53,12 @@ sub install {
         }
     );
 
-    # XXX:
-    # Perhaps install a UNITCHECK callback here that will remove
-    # the keyword glob from the package, this would serve to
-    # enforce the BEGIN time nature of things.
-    # - SL
+    BEGIN::KeywordLift::Util::install_keyword_cleanup_handler(
+        sub {
+            no strict 'refs';
+            delete ${"${pkg}::"}{$method}
+        }
+    );
 }
 
 1;

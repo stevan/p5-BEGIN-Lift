@@ -63,6 +63,17 @@ MODULE = BEGIN::KeywordLift  PACKAGE = BEGIN::KeywordLift::Util
 
 PROTOTYPES: DISABLE
 
+void 
+install_keyword_cleanup_handler(handler)
+        SV* handler
+    CODE:
+        if ( !PL_unitcheckav ) {
+            PL_unitcheckav = newAV();
+        }
+        SvREFCNT_inc(handler);
+        av_push(PL_unitcheckav, handler);
+        
+
 void
 install_keyword_handler(keyword, handler)
         SV *keyword
