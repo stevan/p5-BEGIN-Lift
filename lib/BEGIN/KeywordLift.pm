@@ -25,17 +25,12 @@ sub install {
     # need to force a new CV each time here
     my $cv = eval 'sub {}';
 
-    # NOTE:
-    # if we want to be able to easily delete
-    # an installed method in a teardown scenario
-    # then we will likely need to enforce that
-    # the keyword has an empty typeglob. When
-    # I did try to just delete the CODE slot in
-    # the keyword typeglob, stuff broke in
-    # weird ways.
-    # - SL
     {
         no strict 'refs';
+
+        die "Cannot install the lifted keyword ($method) into package ($pkg) when that typeglob (\*${pkg}::${method}) already exists"
+            if exists ${"${pkg}::"}{$method};
+
         *{"${pkg}::${method}"} = $cv;
     }
 
