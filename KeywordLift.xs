@@ -11,38 +11,6 @@
 #define cv_clone(a) Perl_cv_clone(aTHX_ a)
 #endif
 
-static SV *parser_fn(OP *(fn)(pTHX_ U32)) {
-    I32 floor;
-    CV *code;
-    U8 errors;
-
-    ENTER;
-
-    PL_curcop = &PL_compiling;
-    SAVEVPTR(PL_op);
-    SAVEI8(PL_parser->error_count);
-    PL_parser->error_count = 0;
-
-    floor = start_subparse(0, CVf_ANON);
-    code = newATTRSUB(floor, NULL, NULL, NULL, fn(aTHX_ 0));
-
-    errors = PL_parser->error_count;
-
-    LEAVE;
-
-    if (errors) {
-        ++PL_parser->error_count;
-        return newSV(0);
-    }
-    else {
-        if (CvCLONE(code)) {
-            code = cv_clone(code);
-        }
-
-        return newRV_inc((SV*)code);
-    }
-}
-
 static OP *parser_callback(pTHX_ GV *namegv, SV *psobj, U32 *flagsp) {
     dSP;
     SV *args_generator;
