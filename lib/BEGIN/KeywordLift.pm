@@ -6,6 +6,8 @@ use warnings;
 our $VERSION;
 our $AUTHORITY;
 
+use Sub::Name ();
+
 use Devel::CallParser;
 use XSLoader;
 BEGIN {
@@ -32,12 +34,7 @@ sub install {
         *{"${pkg}::${method}"} = $cv;
     }
 
-    # XXX:
-    # should we do a Sub::Name thing here with $cv?
-    # It might not actually be needed, especially
-    # if we decide to automatically remove the
-    # keywords.
-    # - SL
+    Sub::Name::subname( "${pkg}::${method}", $handler );
 
     BEGIN::KeywordLift::Util::install_keyword_handler(
         $cv,
