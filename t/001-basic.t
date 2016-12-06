@@ -14,9 +14,9 @@ our $TEST;
 # so even though this code technically comes before
 # that test() call, it is actually executed after it
 # this is the "lifting" aspect
-is($TEST, 10, '... got the expected value (RUN) (before Keyword::BeginLift::install)');
+is($TEST, 10, '... got the expected value (RUN) (before BEGIN::Lift::install)');
 BEGIN {
-	use_ok('Keyword::BeginLift');
+	use_ok('BEGIN::Lift');
 
     # now we are back in BEGIN time, so the
     # variable has not even been set
@@ -25,7 +25,7 @@ BEGIN {
     # now we set it initially ..
     $TEST = -1;
     # and install the lifted sub call
-    Keyword::BeginLift::install(
+    BEGIN::Lift::install(
         ('main', 'test') => sub {
             # now, we know that this will
             # still be the initial value
@@ -34,7 +34,7 @@ BEGIN {
             # there is no BEGIN time modification
             # even though there is a lot of
             # RUN time modification.
-            is($TEST, -1, '... got the expected initial value (BEGIN) (inside Keyword::BeginLift::install)');
+            is($TEST, -1, '... got the expected initial value (BEGIN) (inside BEGIN::Lift::install)');
             # now we assign TEST, which means
             # the RUN time code below will
             # see this assigned value
@@ -63,7 +63,7 @@ test( 10 );
 
 # meanwhile back in RUN time, the
 # current value of TEST is 5 ...
-is($TEST, 5, '... got the expected value (RUN) (after Keyword::BeginLift::install)');
+is($TEST, 5, '... got the expected value (RUN) (after BEGIN::Lift::install)');
 
 BEGIN {
     # and in BEGIN time it is 10

@@ -3,7 +3,7 @@ use warnings;
 use ExtUtils::MakeMaker 6.30;
 
 my %WriteMakefileArgs = (
-    'NAME'               => 'Keyword::BeginLift',
+    'NAME'               => 'BEGIN::Lift',
     'VERSION'            => '0.01',
     'DISTNAME'           => 'BEGIN-KeywordLift',
     'ABSTRACT'           => 'Mimic keywords with callbacks executed during the BEGIN phase',

@@ -6,7 +6,7 @@ use warnings;
 use Test::More;
 
 BEGIN {
-	use_ok('Keyword::BeginLift');
+	use_ok('BEGIN::Lift');
 }
 
 done_testing;
