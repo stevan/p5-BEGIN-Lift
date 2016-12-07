@@ -6,9 +6,9 @@ use warnings;
 use Test::More;
 
 BEGIN {
-    use_ok('Keyword::BeginLift');
+    use_ok('BEGIN::Lift');
 
-    Keyword::BeginLift::install(
+    BEGIN::Lift::install(
         ('main', 'double') => sub {
             die('Died within (' . (caller(0))[3] . ')');
         }
