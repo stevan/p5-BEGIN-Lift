@@ -6,30 +6,24 @@ my %WriteMakefileArgs = (
     'NAME'               => 'BEGIN::Lift',
     'VERSION'            => '0.01',
     'DISTNAME'           => 'BEGIN-KeywordLift',
-    'ABSTRACT'           => 'Mimic keywords with callbacks executed during the BEGIN phase',
+    'ABSTRACT'           => 'Lift subroutine calls into the BEGIN phase',
     'AUTHOR'             => 'Stevan Little',
     'BUILD_REQUIRES'     => {},
     'CONFIGURE_REQUIRES' => {
-        'Devel::CallParser' => '0',
+        'Devel::CallParser'   => '0',
         'ExtUtils::MakeMaker' => '6.30'
     },
-    'INC'                => '-Isrc/c',
     'EXE_FILES'          => [],
     'LICENSE'            => 'perl',
     'NORECURS'           => 1,
     'PREREQ_PM'  => {
-        # core ....
-
         # cpan ....
+        'Sub::Name'              => 0,
         'B::CompilerPhase::Hook' => 0,
-
+        'Devel::CallParser'      => 0,
+        'XSLoader'               => 0,
         # tests ..
-        'Test::More'         => 0,
-        'Test::Fatal'        => 0,
-
-        # gonna need these later ...
-        'Devel::CallParser' => '0',
-        'XSLoader'          => '0',
+        'Test::More'             => 0,
     },
     'clean'              => { FILES => 'cover_db/ nytprof/ callparser1.h' },
     'test'               => { RECURSIVE_TEST_FILES => 1 },
