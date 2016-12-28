@@ -24,13 +24,12 @@ BEGIN {
     } or do {
         $EXCEPTION = "$@";
     };
+    like(
+        $EXCEPTION,
+        qr/Died within \(main\:\:double\)/,
+        '... got the error expected'
+    );
 }
-
-like(
-    $EXCEPTION,
-    qr/Died within \(main\:\:double\)/,
-    '... got the error expected'
-);
 
 done_testing;
 

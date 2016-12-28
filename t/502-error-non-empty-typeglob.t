@@ -21,13 +21,13 @@ BEGIN {
     } or do {
         $EXCEPTION = "$@";
     };
-}
 
-like(
-    $EXCEPTION,
-    qr/Cannot install the lifted keyword \(foo\) into package \(main\) when that typeglob \(\*main\:\:foo\) already exists/,
-    '... got the error expected'
-);
+    like(
+        $EXCEPTION,
+        qr/Cannot install the lifted keyword \(foo\) into package \(main\) when that typeglob \(\*main\:\:foo\) already exists/,
+        '... got the error expected'
+    );
+}
 
 done_testing;
 
