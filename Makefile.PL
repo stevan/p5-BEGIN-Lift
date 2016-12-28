@@ -20,6 +20,9 @@ my %WriteMakefileArgs = (
     'PREREQ_PM'  => {
         # core ....
 
+        # cpan ....
+        'B::CompilerPhase::Hook' => 0,
+
         # tests ..
         'Test::More'         => 0,
         'Test::Fatal'        => 0,

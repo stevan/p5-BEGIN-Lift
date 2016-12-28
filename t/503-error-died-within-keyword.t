@@ -15,12 +15,6 @@ BEGIN {
     );
 }
 
-# So to be totally honest, I would like something
-# like this to work, but it doesn't, so I would
-# instead like it to error appropriately, which
-# it doesn't, but this is a test we can tweak for
-# when it actually does.
-
 our $EXCEPTION;
 
 BEGIN {

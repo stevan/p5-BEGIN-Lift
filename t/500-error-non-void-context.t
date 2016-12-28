@@ -13,11 +13,14 @@ BEGIN {
     );
 }
 
-# So to be totally honest, I would like something
-# like this to work, but it doesn't, so I would
-# instead like it to error appropriately, which
-# it doesn't, but this is a test we can tweak for
-# when it actually does.
+# FIXME:
+# This is not actually erroring in a 
+# controlled manner, basically we've
+# confused the parser, so it breaks. 
+# Ideally we improve this so that we 
+# detect the error and provide a more
+# appropriate error message.
+# - SL
 
 our $EXCEPTION;
 

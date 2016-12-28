@@ -1,4 +1,5 @@
 package BEGIN::Lift;
+# ABSTRACT: Lift subroutine calls into the BEGIN phase
 
 use strict;
 use warnings;
@@ -6,7 +7,8 @@ use warnings;
 our $VERSION;
 our $AUTHORITY;
 
-use Sub::Name ();
+use Sub::Name              ();
+use B::CompilerPhase::Hook ();
 
 use Devel::CallParser;
 use XSLoader;
@@ -50,12 +52,10 @@ sub install {
         }
     );
 
-    BEGIN::Lift::Util::install_keyword_cleanup_handler(
-        sub {
-            no strict 'refs';
-            delete ${"${pkg}::"}{$method}
-        }
-    );
+    B::CompilerPhase::Hook::enqueue_UNITCHECK {
+        no strict 'refs';
+        delete ${"${pkg}::"}{$method}
+    };
 }
 
 1;

@@ -64,17 +64,6 @@ MODULE = BEGIN::Lift  PACKAGE = BEGIN::Lift::Util
 PROTOTYPES: DISABLE
 
 void
-install_keyword_cleanup_handler(handler)
-        SV* handler
-    CODE:
-        if ( !PL_unitcheckav ) {
-            PL_unitcheckav = newAV();
-        }
-        SvREFCNT_inc(handler);
-        av_push(PL_unitcheckav, handler);
-
-
-void
 install_keyword_handler(keyword, handler)
         SV *keyword
         SV *handler
@@ -89,7 +78,7 @@ install_keyword_handler(keyword, handler)
 
 SV*
 parse_full_statement()
-    CODE:
+    CODE:         
         I32 floor;
         CV *code;
         U8 errors;
@@ -101,9 +90,8 @@ parse_full_statement()
         SAVEI8(PL_parser->error_count);
         PL_parser->error_count = 0;
 
-        floor = start_subparse(0, CVf_ANON);
-        code = newATTRSUB(floor, NULL, NULL, NULL, Perl_parse_fullstmt(aTHX_ 0));
-
+        floor  = start_subparse(0, CVf_ANON);
+        code   = newATTRSUB(floor, NULL, NULL, NULL, Perl_parse_fullexpr(aTHX_ 0));
         errors = PL_parser->error_count;
 
         LEAVE;
