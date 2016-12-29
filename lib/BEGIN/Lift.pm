@@ -13,7 +13,7 @@ use B::CompilerPhase::Hook ();
 use Devel::CallParser;
 use XSLoader;
 BEGIN {
-    $VERSION   = '0.01';
+    $VERSION   = '0.02';
     $AUTHORITY = 'cpan:STEVAN';
     XSLoader::load( __PACKAGE__, $VERSION );
 }
@@ -181,6 +181,29 @@ such as:
 It will not behave as expected, since the lifted sub call is evaluated 
 entirely at C<BEGIN> time the statement modifier has no affect at all
 and <my_lifted_sub> will always be executed. 
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<Devel::BeginLift>
+
+This does a similar thing, but does it via "some slightly insane perlguts magic",
+while this module has much the same goals, it will (hopefully) accomplish it with
+less insanity.
+
+=back
+
+=head1 AUTHOR
+
+Stevan Little <stevan@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2016 by Stevan Little.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
