@@ -17,7 +17,7 @@ our $EXCEPTION;
 BEGIN {
     eval q{
         if ( double(10) && 100 ) {
-            fail('... this should never happen since double() evals to undef at runtime');    
+            fail('... this should never happen since double() evals to undef at runtime');
         }
         1;
     } or do {

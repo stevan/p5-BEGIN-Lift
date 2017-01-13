@@ -13,7 +13,7 @@ use B::CompilerPhase::Hook ();
 use Devel::CallParser;
 use XSLoader;
 BEGIN {
-    $VERSION   = '0.02';
+    $VERSION   = '0.03';
     $AUTHORITY = 'cpan:STEVAN';
     XSLoader::load( __PACKAGE__, $VERSION );
 }
@@ -31,14 +31,14 @@ sub install {
     # need to force a new CV each time here
     # not entirely sure why, but I assume
     # that perl was trying to optimize things
-    # which is not what I actually want. 
+    # which is not what I actually want.
     my $cv = eval 'sub {}';
 
-    # now we need to install the stub 
-    # we just created, but first we need to 
-    # verify that we are the only ones using 
-    # the typeglob we are installing into. 
-    # This makes it easier/safer to delete 
+    # now we need to install the stub
+    # we just created, but first we need to
+    # verify that we are the only ones using
+    # the typeglob we are installing into.
+    # This makes it easier/safer to delete
     # the stub before runtime.
     {
         no strict 'refs';
@@ -47,8 +47,8 @@ sub install {
         *{"${pkg}::${method}"} = $cv;
     }
 
-    # give the handler a name so that 
-    # it shows up sensibly in stack 
+    # give the handler a name so that
+    # it shows up sensibly in stack
     # traces and the like ...
     Sub::Name::subname( "${pkg}::${method}", $handler );
 
@@ -61,7 +61,7 @@ sub install {
     B::CompilerPhase::Hook::enqueue_UNITCHECK {
         no strict 'refs';
         # NOTE:
-        # this is safe only because we 
+        # this is safe only because we
         # confirmed above that there was
         # no other use of this typeglob
         # and so it is ok to delete
@@ -108,8 +108,8 @@ BEGIN::Lift - Lift subroutine calls into the BEGIN phase
 
 =head1 DESCRIPTION
 
-This module serves a very specific purpose, which is to provide a 
-mechanism through which we can "lift" a given subroutine to be 
+This module serves a very specific purpose, which is to provide a
+mechanism through which we can "lift" a given subroutine to be
 executed entirely within the C<BEGIN> phase of the Perl compiler
 and to leave no trace of itself in the C<RUN> phase.
 
@@ -117,27 +117,27 @@ and to leave no trace of itself in the C<RUN> phase.
 
 =head2 C<install( $package, $keyword_name, $keyword_handler )>
 
-This will install a lifted subroutine named C<$keyword_name> into 
+This will install a lifted subroutine named C<$keyword_name> into
 the specified C<$package>. All calls to this the lifted subroutine
-will execute the C<$keyword_handler> immediately after parsing it. 
+will execute the C<$keyword_handler> immediately after parsing it.
 
 If this subroutine is called outside of the C<BEGIN> phase, an error
-will be thrown. If there already exists a typeglob for C<$keyword_name> 
-then an error will be thrown. 
+will be thrown. If there already exists a typeglob for C<$keyword_name>
+then an error will be thrown.
 
 =head1 CAVEATS
 
 =head2 All arguments to lifted subroutines must be C<BEGIN> time safe
 
-This means they require no runtime initiatlization or access to 
+This means they require no runtime initiatlization or access to
 runtime initialized variables (as they won't be initialized).
 
-For instance, given a lifted subroutine called C<add>, this code is 
-C<BEGIN> time safe because the arguments are numeric literals. 
+For instance, given a lifted subroutine called C<add>, this code is
+C<BEGIN> time safe because the arguments are numeric literals.
 
   add( 1, 1 );
 
-While this version is not safe because it relies on the C<@args> 
+While this version is not safe because it relies on the C<@args>
 variable being initialized at runtime.
 
   my @args = (1, 1);
@@ -145,8 +145,8 @@ variable being initialized at runtime.
 
 =head1 PARSING ISSUES
 
-Ideally we can (eventually) detect these situations and error 
-accordingly so that this is no longer a burden to the user of this 
+Ideally we can (eventually) detect these situations and error
+accordingly so that this is no longer a burden to the user of this
 module, but instead just part of the normal operation of it.
 
 =head2 Non-void context
@@ -156,9 +156,9 @@ is to be assigned to a variable, such as:
 
   my $x = my_lifted_sub();
 
-It will not behave as expected, since C<my_lifted_sub> is evaluated 
-entirely at C<BEGIN> time, the resulting value for C<$x> at C<RUN> 
-time is C<undef>. 
+It will not behave as expected, since C<my_lifted_sub> is evaluated
+entirely at C<BEGIN> time, the resulting value for C<$x> at C<RUN>
+time is C<undef>.
 
 =head2 Expression context
 
@@ -167,20 +167,20 @@ the return value is important, such as:
 
   if ( my_lifted_sub() && 10 ) { ... }
 
-It will not behave as expected, since C<my_lifted_sub> is evaluated 
-entirely at C<BEGIN> time and has the value of C<undef> at runtime, 
-the conditional will always fail. 
+It will not behave as expected, since C<my_lifted_sub> is evaluated
+entirely at C<BEGIN> time and has the value of C<undef> at runtime,
+the conditional will always fail.
 
 =head2 Statement modifier context
 
-If, for instance, a lifted sub call is guarded by a statement modifier, 
+If, for instance, a lifted sub call is guarded by a statement modifier,
 such as:
 
   my_lifted_sub() if 0;
 
-It will not behave as expected, since the lifted sub call is evaluated 
+It will not behave as expected, since the lifted sub call is evaluated
 entirely at C<BEGIN> time the statement modifier has no affect at all
-and <my_lifted_sub> will always be executed. 
+and <my_lifted_sub> will always be executed.
 
 =head1 SEE ALSO
 
@@ -200,7 +200,7 @@ Stevan Little <stevan@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2016 by Stevan Little.
+This software is copyright (c) 2017 by Stevan Little.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

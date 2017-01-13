@@ -17,7 +17,7 @@ BEGIN {
 
 # MAYBE[FIXME]:
 # I would actually prefer that we die here, but
-# this is perhaps outside of my abilities as a 
+# this is perhaps outside of my abilities as a
 # core Perl hacker, so it can work (w/ caveat)
 # for now.
 # - SL

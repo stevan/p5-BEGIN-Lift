@@ -7,7 +7,7 @@
 #define cv_clone(a) Perl_cv_clone(aTHX_ a)
 #endif
 
-static SV *args_builder(U32 *flagsp) {        
+static SV *args_builder(U32 *flagsp) {
     I32 floor;
     CV *code;
     U8 errors;
