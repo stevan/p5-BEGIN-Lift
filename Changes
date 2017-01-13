@@ -1,5 +1,8 @@
 Revision history for Perl extension BEGIN::Lift
 
+0.04
+    - better now that the synopsis actually works
+
 0.03 2017-01-13
     - actually include a Makefile.PL in the release ;)
 

@@ -20,7 +20,7 @@ static SV *args_builder(U32 *flagsp) {
     PL_parser->error_count = 0;
 
     floor  = start_subparse(0, CVf_ANON);
-    code   = newATTRSUB(floor, NULL, NULL, NULL, parse_args_parenthesised(flagsp));
+    code   = newATTRSUB(floor, NULL, NULL, NULL, parse_args_list(flagsp));
     errors = PL_parser->error_count;
 
     LEAVE;
