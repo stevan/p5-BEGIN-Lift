@@ -19,7 +19,7 @@ my %WriteMakefileArgs = (
     'PREREQ_PM'  => {
         # cpan ....
         'Sub::Name'              => 0,
-        'B::CompilerPhase::Hook' => 0,
+        'B::CompilerPhase::Hook' => '0.04',
         'Devel::CallParser'      => 0,
         'XSLoader'               => 0,
         # tests ..
