@@ -3,7 +3,6 @@ Changes
 lib/BEGIN/Lift.pm
 Lift.xs
 MANIFEST			This list of files
-MANIFEST.bak
 MANIFEST.skip
 README.md
 t/000-load.t
