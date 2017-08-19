@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker 6.30;
 
 my %WriteMakefileArgs = (
     'NAME'               => 'BEGIN::Lift',
-    'VERSION'            => '0.05',
+    'VERSION'            => '0.06',
     'DISTNAME'           => 'BEGIN-Lift',
     'ABSTRACT'           => 'Lift subroutine calls into the BEGIN phase',
     'AUTHOR'             => 'Stevan Little',
