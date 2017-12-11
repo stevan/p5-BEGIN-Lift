@@ -38,6 +38,6 @@ open my $fh, '>', 'callparser1.h' or die "Couldn't write to callparser1.h";
 $fh->print(callparser1_h);
 my @linkable = map { abs2rel($_) } callparser_linkable;
 unshift @linkable, '$(BASEEXT)$(OBJ_EXT)' if @linkable;
-$WriteMakefileArgs{OBJECT} = join(' ', @linkable) if @linkable;
+$WriteMakefileArgs{OBJECT} = join(' ', map(qq|"$_"|, @linkable) ) if @linkable;
 
 WriteMakefile(%WriteMakefileArgs);
