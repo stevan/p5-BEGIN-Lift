@@ -25,6 +25,11 @@ my %WriteMakefileArgs = (
         # tests ..
         'Test::More'        => 0,
     },
+    META_MERGE => {
+        resources => {
+            repository  => 'http://github.com/stevan/p5-BEGIN-Lift',
+        },
+    },
     'clean'              => { FILES => 'cover_db/ nytprof/ callparser1.h' },
     'test'               => { RECURSIVE_TEST_FILES => 1 },
 );
